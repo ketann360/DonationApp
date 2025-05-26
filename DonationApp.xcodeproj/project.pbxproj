@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F5EE291E2DE3BE5600EDEBCE /* MockReaderUI in Frameworks */ = {isa = PBXBuildFile; productRef = F5EE291D2DE3BE5600EDEBCE /* MockReaderUI */; };
+		F5EE29202DE3BE5600EDEBCE /* SquareMobilePaymentsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = F5EE291F2DE3BE5600EDEBCE /* SquareMobilePaymentsSDK */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F5EE29002DE3BDD100EDEBCE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -29,9 +34,22 @@
 		F5EE29092DE3BDD100EDEBCE /* DonationAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DonationAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F5EE293E2DE3D4A200EDEBCE /* Exceptions for "DonationApp" folder in "DonationApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F5EE28F12DE3BDD000EDEBCE /* DonationApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F5EE28F42DE3BDD000EDEBCE /* DonationApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F5EE293E2DE3D4A200EDEBCE /* Exceptions for "DonationApp" folder in "DonationApp" target */,
+			);
 			path = DonationApp;
 			sourceTree = "<group>";
 		};
@@ -52,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5EE291E2DE3BE5600EDEBCE /* MockReaderUI in Frameworks */,
+				F5EE29202DE3BE5600EDEBCE /* SquareMobilePaymentsSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +122,7 @@
 				F5EE28EE2DE3BDD000EDEBCE /* Sources */,
 				F5EE28EF2DE3BDD000EDEBCE /* Frameworks */,
 				F5EE28F02DE3BDD000EDEBCE /* Resources */,
+				F5EE29212DE3BEA000EDEBCE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -112,6 +133,8 @@
 			);
 			name = DonationApp;
 			packageProductDependencies = (
+				F5EE291D2DE3BE5600EDEBCE /* MockReaderUI */,
+				F5EE291F2DE3BE5600EDEBCE /* SquareMobilePaymentsSDK */,
 			);
 			productName = DonationApp;
 			productReference = F5EE28F22DE3BDD000EDEBCE /* DonationApp.app */;
@@ -195,6 +218,9 @@
 			);
 			mainGroup = F5EE28E92DE3BDD000EDEBCE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F5EE291C2DE3BE5600EDEBCE /* XCRemoteSwiftPackageReference "mobile-payments-sdk-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F5EE28F32DE3BDD000EDEBCE /* Products */;
 			projectDirPath = "";
@@ -230,6 +256,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F5EE29212DE3BEA000EDEBCE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nFRAMEWORKS=\"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\"${FRAMEWORKS}/SquareMobilePaymentsSDK.framework/setup\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F5EE28EE2DE3BDD000EDEBCE /* Sources */ = {
@@ -395,8 +441,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7LF4C2ZJGY;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DonationApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -422,8 +471,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7LF4C2ZJGY;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DonationApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -550,6 +602,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F5EE291C2DE3BE5600EDEBCE /* XCRemoteSwiftPackageReference "mobile-payments-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/square/mobile-payments-sdk-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 2.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F5EE291D2DE3BE5600EDEBCE /* MockReaderUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F5EE291C2DE3BE5600EDEBCE /* XCRemoteSwiftPackageReference "mobile-payments-sdk-ios" */;
+			productName = MockReaderUI;
+		};
+		F5EE291F2DE3BE5600EDEBCE /* SquareMobilePaymentsSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F5EE291C2DE3BE5600EDEBCE /* XCRemoteSwiftPackageReference "mobile-payments-sdk-ios" */;
+			productName = SquareMobilePaymentsSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F5EE28EA2DE3BDD000EDEBCE /* Project object */;
 }

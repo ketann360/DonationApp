@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict/>
+	</array>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Used to connect to the Square Reader</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Some Square readers use the microphone to communicate payment card data to your device.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Required for connecting to Square hardware</string>
+    
+</dict>
+</plist>
