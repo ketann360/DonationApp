@@ -7,63 +7,55 @@
 
 import SwiftUI
 
+enum AppStep {
+    case selectAmount
+    case confirm(amount: Int)
+    case thankYou
+}
+
 struct ContentView: View {
     @StateObject private var locationManager = LocationPermissionManager()
     @StateObject private var bluetoothManager = BluetoothPermissionManager()
 
-    let donationAmounts = [5, 11, 21, 51, 101]
-    @State private var selectedAmount: Int?
-    @State private var navigateToConfirm = false
-    
+    @State private var step: AppStep = .selectAmount
+
     var body: some View {
-        NavigationView {
-            VStack(spacing: 32) {
-                Text("Select Donation Amount")
-                    .font(.largeTitle)
-                    .bold()
-                
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 20)], spacing: 20) {
-                    ForEach(donationAmounts, id: \.self) { amount in
-                        Button(action: {
-                            selectedAmount = amount
-                            navigateToConfirm = true
-                        }) {
-                            Text("$\(amount)")
-                                .frame(width: 100, height: 60)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(16)
-                                .font(.title2)
-                        }
-                    }
+        VStack {
+            switch step {
+            case .selectAmount:
+                AmountSelectionView { selectedAmount in
+                    step = .confirm(amount: selectedAmount)
                 }
-                
-                NavigationLink(
-                    destination: DonationConfirmationView(amount: selectedAmount ?? 0),
-                    isActive: $navigateToConfirm
-                ) {
-                    EmptyView()
+
+            case .confirm(let amount):
+                DonationConfirmationView(amount: amount) {
+                    step = .thankYou
                 }
-                
-                Spacer()
+
+            case .thankYou:
+                ThankYouView {
+                    step = .selectAmount
+                }
             }
-            .padding()
-            .onAppear {
-                locationManager.requestLocationPermission()
-                bluetoothManager.requestBluetoothPermission()
-                SquarePaymentManager.shared.authorizeSDK(
-                    accessToken: "<YOUR_SQUARE_ACCESS_TOKEN>",
-                    locationID: "<YOUR_LOCATION_ID>"
-                ) { error in
-                    if let error = error {
-                        print("Square SDK authorization failed: \(error.localizedDescription)")
-                    } else {
-                        print("Square SDK successfully authorized.")
-                    }
+        }
+        .onAppear {
+            locationManager.requestLocationPermission()
+            bluetoothManager.requestBluetoothPermission()
+
+            SquarePaymentManager.shared.authorizeSDK(
+                accessToken: "EAAAl0Mvh1op1g8fTuC0d6mA491Jccwpkdkam6quBmvqrld0lNEK6lXvtwccXC43",
+                locationID: "<YOUR_SANDBOX_LOCATION_ID>"
+            ) { error in
+                if let error = error {
+                    print("❌ Square SDK authorization failed: \(error.localizedDescription)")
+                } else {
+                    print("✅ Square SDK successfully authorized.")
                 }
             }
         }
     }
+
+
 
     private var locationStatusText: String {
         switch locationManager.authorizationStatus {
