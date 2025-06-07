@@ -3,14 +3,15 @@ import SwiftUI
 struct DonationConfirmationView: View {
     let amount: Int
     let onPaymentCompleted: () -> Void
+    var onBack: () -> Void
 
     @State private var showPaymentLauncher = false
     let useMockPaymentLauncher = true
 
     var body: some View {
         VStack(spacing: 30) {
-            Spacer() // Push content towards center vertically
-            
+            Spacer()  // Push content towards center vertically
+
             Text("Confirm Donation")
                 .font(.largeTitle)
                 .bold()
@@ -32,7 +33,7 @@ struct DonationConfirmationView: View {
                     .shadow(radius: 5)
             }
 
-            Spacer() // Push content towards center vertically
+            Spacer()  // Push content towards center vertically
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)  // Fill parent container
         .background(Color(UIColor.systemBackground))
@@ -50,10 +51,30 @@ struct DonationConfirmationView: View {
                 }
             }
         }
+        //Back button
+        HStack(alignment: .top) {
+            Button(action: onBack) {
+                HStack(alignment: .top) {
+                    Image(systemName: "chevron.left")
+                    Text("Back")
+                }
+                .frame(width: 90, height: 75)
+                .clipped()
+                .foregroundColor(.white)
+                .font(.title)
+                .background(Color.black.opacity(0.5))
+                .clipShape(Capsule())
+                .shadow(radius: 3)
+            }
+            .frame(maxWidth: 1080, maxHeight: 700, alignment: .topLeading)
+            .clipped()
+            .padding(24)
+        }
     }
 }
 
 // MockPaymentLauncher for testing UI without real payment
+
 struct MockPaymentLauncher: View {
     let amount: Int
     let onComplete: () -> Void

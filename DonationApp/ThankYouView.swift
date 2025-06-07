@@ -12,36 +12,36 @@ struct ThankYouView: View {
     var onFinish: () -> Void
     var body: some View {
         ZStack {
-                    // Background image (replace with your asset name)
-                    Image("ThankYouHands")
-                        .resizable()
-                        .scaledToFill()
-                        .opacity(0.15)
-                        .ignoresSafeArea()
+            // Background image (replace with your asset name)
+            Image("ThankYouHands")
+                .resizable()
+                .scaledToFill()
+                .opacity(0.15)
+                .ignoresSafeArea()
 
-                    VStack(spacing: 30) {
-                        Spacer()
+            VStack(spacing: 30) {
+                Spacer()
 
-                        Text("🎉 Thank You!")
-                            .font(.largeTitle)
-                            .bold()
-                            .multilineTextAlignment(.center)
+                Text("🎉 Thank You!")
+                    .font(.largeTitle)
+                    .bold()
+                    .multilineTextAlignment(.center)
 
-                        Text("Your donation has been received.")
-                            .font(.title2)
-                            .multilineTextAlignment(.center)
+                Text("Your donation has been received.")
+                    .font(.title2)
+                    .multilineTextAlignment(.center)
 
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                onFinish()
-                
+                Spacer()
             }
-        }
-            
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    onFinish()
+
+                }
+            }
+
         }
     }
 }

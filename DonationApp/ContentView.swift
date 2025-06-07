@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-enum AppStep {
+enum AppStep: Equatable {
+    case welcome
     case selectAmount
     case confirm(amount: Int)
     case thankYou
@@ -17,45 +18,85 @@ struct ContentView: View {
     @StateObject private var locationManager = LocationPermissionManager()
     @StateObject private var bluetoothManager = BluetoothPermissionManager()
 
-    @State private var step: AppStep = .selectAmount
+    @State private var step: AppStep = .welcome
 
     var body: some View {
-        VStack {
-            switch step {
-            case .selectAmount:
-                AmountSelectionView { selectedAmount in
-                    step = .confirm(amount: selectedAmount)
-                }
+        ZStack {
+            if case .welcome = step {
+                WelcomeView {
+                        step = .selectAmount
+                    }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
 
-            case .confirm(let amount):
-                DonationConfirmationView(amount: amount) {
-                    step = .thankYou
-                }
+            }
 
-            case .thankYou:
+            if case .selectAmount = step {
+                AmountSelectionView(
+                    onAmountSelected: { selectedAmount in
+                            step = .confirm(amount: selectedAmount)
+                    },
+                    onBack: {
+                            step = .welcome
+                    }
+                )
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+
+            }
+
+            if case .confirm(let amount) = step {
+                DonationConfirmationView(
+                    amount: amount,
+                    onPaymentCompleted: {
+                            step = .thankYou
+                    },
+                    onBack: {
+                            step = .selectAmount
+                    }
+                )
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+
+            }
+
+            if case .thankYou = step {
                 ThankYouView {
-                    step = .selectAmount
+                        step = .welcome
                 }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .bottom).combined(with: .opacity)
+                ))
+
             }
         }
+        .animation(.easeInOut(duration: 0.5), value: step)
         .onAppear {
             locationManager.requestLocationPermission()
             bluetoothManager.requestBluetoothPermission()
 
             SquarePaymentManager.shared.authorizeSDK(
-                accessToken: "EAAAl0Mvh1op1g8fTuC0d6mA491Jccwpkdkam6quBmvqrld0lNEK6lXvtwccXC43",
+                accessToken:
+                    "EAAAl0Mvh1op1g8fTuC0d6mA491Jccwpkdkam6quBmvqrld0lNEK6lXvtwccXC43",
                 locationID: "<YOUR_SANDBOX_LOCATION_ID>"
             ) { error in
                 if let error = error {
-                    print("❌ Square SDK authorization failed: \(error.localizedDescription)")
+                    print(
+                        "❌ Square SDK authorization failed: \(error.localizedDescription)"
+                    )
                 } else {
                     print("✅ Square SDK successfully authorized.")
                 }
             }
         }
     }
-
-
 
     private var locationStatusText: String {
         switch locationManager.authorizationStatus {
@@ -87,7 +128,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 #Preview {
     ContentView()
