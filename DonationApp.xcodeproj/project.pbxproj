@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F5EE291E2DE3BE5600EDEBCE /* MockReaderUI in Frameworks */ = {isa = PBXBuildFile; productRef = F5EE291D2DE3BE5600EDEBCE /* MockReaderUI */; };
+		F55A42852E0BB71B0021A36B /* SquarePointOfSaleSDK in Frameworks */ = {isa = PBXBuildFile; productRef = F55A42842E0BB71B0021A36B /* SquarePointOfSaleSDK */; };
 		F5EE29202DE3BE5600EDEBCE /* SquareMobilePaymentsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = F5EE291F2DE3BE5600EDEBCE /* SquareMobilePaymentsSDK */; };
 /* End PBXBuildFile section */
 
@@ -70,8 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5EE291E2DE3BE5600EDEBCE /* MockReaderUI in Frameworks */,
 				F5EE29202DE3BE5600EDEBCE /* SquareMobilePaymentsSDK in Frameworks */,
+				F55A42852E0BB71B0021A36B /* SquarePointOfSaleSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,12 +92,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F55A42832E0BB71B0021A36B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F5EE28E92DE3BDD000EDEBCE = {
 			isa = PBXGroup;
 			children = (
 				F5EE28F42DE3BDD000EDEBCE /* DonationApp */,
 				F5EE29022DE3BDD100EDEBCE /* DonationAppTests */,
 				F5EE290C2DE3BDD100EDEBCE /* DonationAppUITests */,
+				F55A42832E0BB71B0021A36B /* Frameworks */,
 				F5EE28F32DE3BDD000EDEBCE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -122,7 +130,7 @@
 				F5EE28EE2DE3BDD000EDEBCE /* Sources */,
 				F5EE28EF2DE3BDD000EDEBCE /* Frameworks */,
 				F5EE28F02DE3BDD000EDEBCE /* Resources */,
-				F5EE29212DE3BEA000EDEBCE /* ShellScript */,
+				F5EE29212DE3BEA000EDEBCE /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -133,8 +141,8 @@
 			);
 			name = DonationApp;
 			packageProductDependencies = (
-				F5EE291D2DE3BE5600EDEBCE /* MockReaderUI */,
 				F5EE291F2DE3BE5600EDEBCE /* SquareMobilePaymentsSDK */,
+				F55A42842E0BB71B0021A36B /* SquarePointOfSaleSDK */,
 			);
 			productName = DonationApp;
 			productReference = F5EE28F22DE3BDD000EDEBCE /* DonationApp.app */;
@@ -220,6 +228,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F5EE291C2DE3BE5600EDEBCE /* XCRemoteSwiftPackageReference "mobile-payments-sdk-ios" */,
+				F55A42822E0BB4000021A36B /* XCRemoteSwiftPackageReference "SquarePointOfSaleSDK-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F5EE28F32DE3BDD000EDEBCE /* Products */;
@@ -258,7 +267,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F5EE29212DE3BEA000EDEBCE /* ShellScript */ = {
+		F5EE29212DE3BEA000EDEBCE /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -267,6 +276,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -352,7 +362,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -415,7 +425,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -439,6 +449,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DonationApp/DonationAppDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7LF4C2ZJGY;
@@ -446,11 +457,19 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DonationApp/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Square uses Bluetooth to connect and communicate with Square readers and compatible accessories.\nSquare uses Bluetooth to connect and communicate with Square readers and compatible accessories.\n";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Your app needs local network access to discover and connect to Square payment hardware for secure transaction processing.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Square needs to know where transactions take place to reduce risk and minimize payment disputes.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Square needs to know where transactions take place to reduce risk and minimize payment disputes.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Some Square readers use the microphone to communicate payment card data to your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -458,9 +477,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = issohoustondonation.DonationApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -469,6 +492,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DonationApp/DonationApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7LF4C2ZJGY;
@@ -476,11 +500,19 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DonationApp/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Square uses Bluetooth to connect and communicate with Square readers and compatible accessories.\nSquare uses Bluetooth to connect and communicate with Square readers and compatible accessories.\n";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Your app needs local network access to discover and connect to Square payment hardware for secure transaction processing.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Square needs to know where transactions take place to reduce risk and minimize payment disputes.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Square needs to know where transactions take place to reduce risk and minimize payment disputes.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Some Square readers use the microphone to communicate payment card data to your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -488,9 +520,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = issohoustondonation.DonationApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
@@ -604,21 +640,29 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F55A42822E0BB4000021A36B /* XCRemoteSwiftPackageReference "SquarePointOfSaleSDK-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/square/SquarePointOfSaleSDK-iOS";
+			requirement = {
+				kind = exactVersion;
+				version = 3.5.4;
+			};
+		};
 		F5EE291C2DE3BE5600EDEBCE /* XCRemoteSwiftPackageReference "mobile-payments-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/square/mobile-payments-sdk-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 2.2.1;
+				version = 2.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F5EE291D2DE3BE5600EDEBCE /* MockReaderUI */ = {
+		F55A42842E0BB71B0021A36B /* SquarePointOfSaleSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F5EE291C2DE3BE5600EDEBCE /* XCRemoteSwiftPackageReference "mobile-payments-sdk-ios" */;
-			productName = MockReaderUI;
+			package = F55A42822E0BB4000021A36B /* XCRemoteSwiftPackageReference "SquarePointOfSaleSDK-iOS" */;
+			productName = SquarePointOfSaleSDK;
 		};
 		F5EE291F2DE3BE5600EDEBCE /* SquareMobilePaymentsSDK */ = {
 			isa = XCSwiftPackageProductDependency;

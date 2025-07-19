@@ -8,40 +8,57 @@
 import SwiftUI
 
 struct ThankYouView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var appState: AppState
     var onFinish: () -> Void
+
     var body: some View {
         ZStack {
-                    // Background image (replace with your asset name)
-                    Image("ThankYouHands")
-                        .resizable()
-                        .scaledToFill()
-                        .opacity(0.15)
-                        .ignoresSafeArea()
+            // Black background
+            Color.black.ignoresSafeArea()
 
-                    VStack(spacing: 30) {
-                        Spacer()
+            // Background image
+            Image("ThankYouHands")
+                .resizable()
+                .scaledToFill()
+                .opacity(0.15)
+                .ignoresSafeArea()
 
-                        Text("🎉 Thank You!")
-                            .font(.largeTitle)
-                            .bold()
-                            .multilineTextAlignment(.center)
+            // Content stack, vertically centered
+            VStack(spacing: 20) {
+                Text("🎉 Thank You!")
+                    .font(.largeTitle)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.brown)
+                    .padding(.horizontal)
 
-                        Text("Your donation has been received.")
-                            .font(.title2)
-                            .multilineTextAlignment(.center)
+                Text("Your donation has been received.")
+                    .font(.title2)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.brown)
+                    .padding(.horizontal)
 
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                onFinish()
-                
+                Image("jai_swaminarayan")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 400)
+                    .padding(.vertical, 20)
             }
         }
-            
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                // Reset payment flag and trigger exit
+                onFinish()
+            }
         }
+    }
+}
+
+
+struct ThankYouView_Previews: PreviewProvider {
+    static var previews: some View {
+        ThankYouView(onFinish: {
+            // Do nothing for preview
+        })
     }
 }

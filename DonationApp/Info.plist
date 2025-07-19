@@ -2,16 +2,41 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict/>
-	</array>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>Used to connect to the Square Reader</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Some Square readers use the microphone to communicate payment card data to your device.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Required for connecting to Square hardware</string>
-    
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>Square uses Bluetooth to connect and communicate with Square readers and compatible accessories.</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>Square needs to know where transactions take place to reduce risk and minimize payment disputes.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Some Square readers use the microphone to communicate payment card data to your device.</string>
+
+<key>UISupportedExternalAccessoryProtocols</key>
+<array>
+    <string>com.squareup.s020</string>
+    <string>com.squareup.s025</string>
+    <string>com.squareup.s089</string>
+    <string>com.squareup.protocol.stand</string>
+</array>
+
+<key>UIBackgroundModes</key>
+<array>
+    <string>external-accessory</string>
+</array>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>square-commerce-v1</string>
+</array>
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleTypeRole</key>
+    <string>Editor</string>
+    <key>CFBundleURLName</key>
+    <string>issohoustondonation.DonationApp</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>donationapp</string>
+    </array>
+  </dict>
+</array>
 </dict>
 </plist>

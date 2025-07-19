@@ -7,21 +7,29 @@
 
 import SwiftUI
 
+
 struct PaymentLauncher: UIViewControllerRepresentable {
     let amount: Int
-    let onSuccess: () -> Void
+        let onSuccess: () -> Void
+        let onFail: (Error?) -> Void
+        let onCancel: () -> Void
+
+//        func makeCoordinator() -> PaymentCoordinator {
+//            return PaymentCoordinator(
+//                onSuccess: onSuccess,
+//                onFail: onFail,
+//                onCancel: onCancel
+//            )
+//        }
 
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()
-        DispatchQueue.main.async {
-            let coordinator = PaymentCoordinator()
-            coordinator.startPayment(amount: amount, from: viewController) {
-                onSuccess()
-            }
-        }
+        viewController.view.backgroundColor = .clear
+//        DispatchQueue.main.async {
+//            context.coordinator.startPayment(amount: amount, from: viewController)
+//        }
         return viewController
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
-

@@ -1,77 +1,97 @@
 import SwiftUI
+import SquarePointOfSaleSDK // Correct SDK import
+import Combine // Import Combine for PassthroughSubject and subscriptions
 
 struct DonationConfirmationView: View {
     let amount: Int
-    let onPaymentCompleted: () -> Void
+    let onPaymentCompleted: () -> Void // Closure to be called on successful payment
+    let onCancel: () -> Void           // Closure to be called when the user cancels
+    // onPaymentFailed: (Error?) -> Void // This callback is less critical here, as the coordinator handles errors, but could be used for specific UI feedback.
 
-    @State private var showPaymentLauncher = false
-    let useMockPaymentLauncher = true
+    @EnvironmentObject var posPaymentManager: POSPaymentManager // Inject the shared instance via EnvironmentObject
 
-    var body: some View {
-        VStack(spacing: 30) {
-            Spacer() // Push content towards center vertically
-            
-            Text("Confirm Donation")
-                .font(.largeTitle)
-                .bold()
-                .multilineTextAlignment(.center)
-
-            Text("You selected: $\(amount)")
-                .font(.title)
-                .multilineTextAlignment(.center)
-
-            Button(action: {
-                showPaymentLauncher = true
-            }) {
-                Text("Proceed to Payment")
-                    .frame(maxWidth: 250, minHeight: 50)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .font(.headline)
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
-            }
-
-            Spacer() // Push content towards center vertically
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)  // Fill parent container
-        .background(Color(UIColor.systemBackground))
-        .padding()
-        .fullScreenCover(isPresented: $showPaymentLauncher) {
-            if useMockPaymentLauncher {
-                MockPaymentLauncher(amount: amount) {
-                    showPaymentLauncher = false
-                    onPaymentCompleted()
-                }
-            } else {
-                PaymentLauncher(amount: amount) {
-                    showPaymentLauncher = false
-                    onPaymentCompleted()
-                }
-            }
-        }
-    }
-}
-
-// MockPaymentLauncher for testing UI without real payment
-struct MockPaymentLauncher: View {
-    let amount: Int
-    let onComplete: () -> Void
+    @State private var cancellables = Set<AnyCancellable>() // To manage Combine subscriptions
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Mock Payment Processing")
-                .font(.title)
-                .padding()
+        ZStack {
+            Color.black.ignoresSafeArea()
 
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle())
-                .scaleEffect(2)
+            VStack(spacing: 20) {
+                Spacer()
+
+                Text("Confirm Donation")
+                    .font(.largeTitle)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.brown)
+
+                Text("You selected: $\(amount)")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.brown)
+
+                Button(action: {
+                    // Call the launchPayment method on your injected POSPaymentManager
+                    posPaymentManager.launchPayment(amountCents: amount * 100, notes: "Donation")
+                }) {
+                    Text("Proceed to Payment")
+                        .frame(maxWidth: 450, minHeight: 100)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .cornerRadius(12)
+                        .shadow(radius: 5)
+                }
+                .padding(.vertical, 10)
+
+                Button(action: {
+                    onCancel() // Call the provided cancel closure
+                }) {
+                    Text("Cancel")
+                        .frame(maxWidth: 450, minHeight: 100)
+                        .background(Color.red.opacity(0.8))
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .cornerRadius(12)
+                        .shadow(radius: 5)
+                }
+                .padding(.vertical, 10)
+
+                Spacer()
+            }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                onComplete()
-            }
+            // Subscribe to payment outcomes from the POSPaymentManager when the view appears.
+            // This is how DonationConfirmationView reacts to the payment result
+            // that comes back from the Square POS app.
+            posPaymentManager.paymentOutcomeSubject
+                .sink { result in
+                    switch result {
+                    case .success:
+                        print("Payment successful in DonationConfirmationView, triggering completion.")
+                        self.onPaymentCompleted() // Payment succeeded, trigger navigation in parent view
+                    case .canceled:
+                        print("Payment canceled by user in DonationConfirmationView.")
+                        // If payment is canceled, you might want to keep this view open
+                        // or call onCancel() to dismiss it, depending on UX.
+                        // For now, we'll just print, keeping the view open.
+                        // self.onCancel() // Uncomment if you want to dismiss on cancel
+                    case .failed:
+                        print("Payment failed in DonationConfirmationView:")
+                        // Call the onPaymentFailed closure (if you still need it here)
+                        // Or trigger an alert within this view to show the error
+                        // For simplicity, we'll dismiss on failure.
+                        self.onCancel() // Dismiss on failure, or show an alert
+                    }
+                }
+                .store(in: &cancellables) // Store the subscription to manage its lifecycle
+        }
+        .onDisappear {
+            // Important: Cancel all subscriptions when the view disappears
+            // to prevent memory leaks and ensure Combine streams are properly managed.
+            cancellables.forEach { $0.cancel() }
+            cancellables.removeAll()
+            print("DonationConfirmationView subscriptions cancelled.")
         }
     }
 }

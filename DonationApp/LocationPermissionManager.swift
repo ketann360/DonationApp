@@ -32,9 +32,9 @@ class LocationPermissionManager: NSObject, ObservableObject, CLLocationManagerDe
         }
     }
 
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        DispatchQueue.main.async {
-            self.authorizationStatus = status
-        }
-    }
+//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//        DispatchQueue.main.async {
+//            self.authorizationStatus = status
+//        }
+//    }
 }
